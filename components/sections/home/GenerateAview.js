@@ -11,9 +11,12 @@ import FormInput from '../../FormComponents/FormInput';
 import Button from '../../UI/Button';
 import MultipleSelectInput from '../../FormComponents/MultipleSelectInput';
 import { useRouter } from 'next/router';
-
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, addDoc } from 'firebase/firestore';
+import { database } from '../../../firebaseConfig';
 const GenerateAview = () => {
   let router = useRouter();
+  const auth = getAuth();
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [data, setData] = useState({
     name: '',
@@ -30,7 +33,16 @@ const GenerateAview = () => {
     try {
       setHasSubmitted(true);
       if (!data.name || !data.url || !data.email) return;
-      submitForm('generate-aview', {
+      // submitForm('generate-aview', {
+      //   name: data.name,
+      //   url: data.url,
+      //   email: data.email,
+      //   languages: data.languages.toString(),
+      //   'Translations/Subtitles': data['Translations/Subtitles'],
+      //   Dubbing: data['Dubbing'],
+      //   Shorts: data['Shorts'],
+      // });
+      addDoc(collection(database, 'users'), {
         name: data.name,
         url: data.url,
         email: data.email,
@@ -38,8 +50,10 @@ const GenerateAview = () => {
         'Translations/Subtitles': data['Translations/Subtitles'],
         Dubbing: data['Dubbing'],
         Shorts: data['Shorts'],
+      }).then((res) => {
+        router.push('/success');
+        console.log(res);
       });
-      router.push('/success');
     } catch (error) {
       console.log(error);
     }
@@ -75,7 +89,7 @@ const GenerateAview = () => {
       LANGUAGAESARRAY.push(option);
       setData({ ...data, languages: LANGUAGAESARRAY });
     }
-    console.log(data.languages)
+    console.log(data.languages);
   };
 
   return (
