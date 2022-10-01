@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {
   GENERATE_AVIEW_CHECKBOX,
   GENERATE_AVIEW_INPUT,
@@ -11,12 +11,15 @@ import FormInput from '../../FormComponents/FormInput';
 import Button from '../../UI/Button';
 import MultipleSelectInput from '../../FormComponents/MultipleSelectInput';
 import { useRouter } from 'next/router';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
 import { database } from '../../../firebaseConfig';
+
+
 const GenerateAview = () => {
   let router = useRouter();
-  const auth = getAuth();
+  
+
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [data, setData] = useState({
     name: '',
@@ -28,7 +31,7 @@ const GenerateAview = () => {
     Shorts: 'No',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setHasSubmitted(true);
@@ -42,7 +45,10 @@ const GenerateAview = () => {
       //   Dubbing: data['Dubbing'],
       //   Shorts: data['Shorts'],
       // });
-      addDoc(collection(database, 'users'), {
+      
+      await createUserWithEmailAndPassword(getAuth(), data.email, "password");
+
+      await addDoc(collection(database, 'users'), {
         name: data.name,
         url: data.url,
         email: data.email,
@@ -50,10 +56,13 @@ const GenerateAview = () => {
         'Translations/Subtitles': data['Translations/Subtitles'],
         Dubbing: data['Dubbing'],
         Shorts: data['Shorts'],
-      }).then((res) => {
-        router.push('/success');
+      }).then(async (res) => {
+        // await signInWithEmailAndPassword(getAuth(), data.email, 'password');
+        router.push('/dashboard');
         console.log(res);
       });
+
+      
     } catch (error) {
       console.log(error);
     }

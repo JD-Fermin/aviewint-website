@@ -1,8 +1,13 @@
 import '../styles/globals.css';
 import { MenuOpenContextProvider } from '../store/menu-open-context';
+import { UserAuthContextProvider } from '../store/user-auth-context';
 import { useEffect } from 'react';
+import Wrapper from './wrapper';
+import { app } from '../firebaseConfig';
 
 const MyApp = ({ Component, pageProps }) => {
+  app();
+
   useEffect(() => {
     const setViewportHeight = () => {
       let vh = window.innerHeight * 0.01;
@@ -13,9 +18,13 @@ const MyApp = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <MenuOpenContextProvider>
-      <Component {...pageProps} />
-    </MenuOpenContextProvider>
+    <UserAuthContextProvider>
+      <Wrapper>
+        <MenuOpenContextProvider>
+          <Component {...pageProps} />
+        </MenuOpenContextProvider>
+      </Wrapper>
+    </UserAuthContextProvider>
   );
 };
 

@@ -12,7 +12,7 @@ import Blobs from '../components/UI/Blobs';
 import FAQs from '../components/sections/home/FAQs';
 import GenerateAview from '../components/sections/home/GenerateAview';
 import SEO from '../components/SEO/SEO';
-import { app } from '../firebaseConfig';
+
 const Home = () => {
   
   return (
