@@ -87,7 +87,6 @@ const GenerateAview = () => {
     }
   };
   const handleMutlipleCheckbox = (option) => {
-    console.log(option);
     if (data.languages.includes(option)) {
       let newArray = [...data.languages];
       newArray.splice(newArray.indexOf(option), 1);
@@ -97,7 +96,6 @@ const GenerateAview = () => {
       LANGUAGAESARRAY.push(option);
       setData({ ...data, languages: LANGUAGAESARRAY });
     }
-    console.log(data.languages);
   };
 
   return (
