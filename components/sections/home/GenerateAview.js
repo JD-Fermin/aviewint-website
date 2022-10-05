@@ -11,7 +11,7 @@ import FormInput from '../../FormComponents/FormInput';
 import Button from '../../UI/Button';
 import MultipleSelectInput from '../../FormComponents/MultipleSelectInput';
 import { useRouter } from 'next/router';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
 import { database } from '../../../firebaseConfig';
 
@@ -57,7 +57,6 @@ const GenerateAview = () => {
         Dubbing: data['Dubbing'],
         Shorts: data['Shorts'],
       }).then(async (res) => {
-        // await signInWithEmailAndPassword(getAuth(), data.email, 'password');
         router.push('/dashboard');
         console.log(res);
       });
