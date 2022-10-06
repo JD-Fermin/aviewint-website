@@ -5,9 +5,15 @@ import { useEffect } from 'react';
 import Wrapper from './wrapper';
 import { app } from '../firebaseConfig';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 const MyApp = ({ Component, pageProps }) => {
   app();
 
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
   useEffect(() => {
     const setViewportHeight = () => {
       let vh = window.innerHeight * 0.01;
