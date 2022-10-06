@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import UserAuthContext from "../../store/user-auth-context";
 import {
   OnboardingStep1,
   OnboardingStep2,
@@ -15,9 +16,16 @@ import aviewLogo from '../../public/img/aview/logo.svg';
 import ArrowBack from '../../public/img/icons/arrow-back.svg';
 
 const Onboarding = ({ children }) => {
+  const { user } = useContext(UserAuthContext);
   const router = useRouter();
   useEffect(() => {
-    if (!window.location.search) router.push('/onboarding?stage=1');
+    console.log(user);
+    if ( user ) {
+      
+      router.push('/dashboard');
+    } else if (!window.location.search){
+      router.push('/onboarding?stage=1');
+    }
   }, []);
   return (
     <>

@@ -20,6 +20,8 @@ import {
 import Link from 'next/link';
 import CustomSelectInput from '../FormComponents/CustomSelectInput';
 import MultipleSelectInput from '../FormComponents/MultipleSelectInput';
+import { getAuth, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+
 
 // Onboarding stage 1
 export const OnboardingStep1 = () => {
@@ -29,20 +31,27 @@ export const OnboardingStep1 = () => {
     isLoading: false,
     email: '',
   });
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setEmail({ ...email, hasSubmitted: true });
-    if (!emailValidator(email.email)) return;
-    setEmail({ ...email, isLoading: true });
-    setTimeout(() => router.push('/onboarding?stage=2'), 2000);
+    // setEmail({ ...email, hasSubmitted: true });
+    // if (!emailValidator(email.email)) return;
+    // setEmail({ ...email, isLoading: true });
+    // setTimeout(() => router.push('/onboarding?stage=2'), 2000);
+    const provider = new GoogleAuthProvider();
+    await signInWithRedirect(getAuth(), provider);
+    router.push('/dashboard');
+
+    
   };
+  
+  
   return (
     <>
       <div className=" m-auto flex w-[min(380px,90%)] flex-col items-stretch">
         <h2 className="mb-8 text-center text-7xl md:text-8xl">Sign Up</h2>
         <Shadow classes="w-full mb-4">
           <Border borderRadius="full" classes="w-full">
-            <button className="flex w-full items-center justify-center rounded-full bg-black p-2 text-white md:p-3">
+            <button onClick={handleSubmit} className="flex w-full items-center justify-center rounded-full bg-black p-2 text-white md:p-3">
               <span className="flex items-center justify-center pr-s1">
                 <Image src={Google} alt="Google" />
               </span>
@@ -61,7 +70,7 @@ export const OnboardingStep1 = () => {
           </Border>
         </Shadow>
         <div className={`gradient-1 my-8 h-[2px] w-full`}></div>
-        <FormInput
+        {/* <FormInput
           label="Email"
           placeholder="Your email"
           _id="email"
@@ -71,7 +80,7 @@ export const OnboardingStep1 = () => {
         />
         <OnboardingButton isLoading={email.isLoading} onClick={handleSubmit}>
           Continue with email
-        </OnboardingButton>
+        </OnboardingButton> */}
       </div>
     </>
   );
