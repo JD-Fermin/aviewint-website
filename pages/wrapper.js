@@ -5,8 +5,8 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 const Wrapper = ({ children }) => {
   const { setUser } = useContext(UserAuthContext);
 
-  onAuthStateChanged(getAuth(), (user) => {
-    setUser(user);
+  onAuthStateChanged(getAuth(), async (user) => {
+    await setUser(user);
   });
   return <>{children}</>;
 };

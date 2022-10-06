@@ -19,15 +19,10 @@ import { PageTransition } from '../../components/animations';
 const Onboarding = ({ children }) => {
   const { user } = useContext(UserAuthContext);
   const router = useRouter();
+ 
   useEffect(() => {
-    console.log(user);
-    if ( user ) {
-      
-      router.push('/dashboard');
-    } else if (!window.location.search){
-      router.push('/onboarding?stage=1');
-    }
-  }, []);
+     if (user) router.push("/dashboard");
+  }, [user]);
   return (
     <>
       <SEO

@@ -1,11 +1,19 @@
 import UserAuthContext from "../../store/user-auth-context";
 import { signOut, getAuth } from "firebase/auth";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 
 const Dashboard = () => {
+  const router = useRouter();
   const { user } = useContext(UserAuthContext);
-  console.log(user);
+  
+  useEffect(() => {
+    console.log(user, "context")
+    console.log(getAuth().currentUser, "auth")
+  }, []);
+ 
+
   return (
     user ?
     <>
@@ -17,7 +25,6 @@ const Dashboard = () => {
         Sign Out
       </button>
     </> : null
-
   );
 };
 
