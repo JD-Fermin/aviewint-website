@@ -7,6 +7,7 @@ import { app } from '../firebaseConfig';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
 const MyApp = ({ Component, pageProps }) => {
   app();
 
